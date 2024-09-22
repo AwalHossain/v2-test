@@ -9,21 +9,34 @@
 // Example 2:
 // Input: s = “xyzzoy”
 // Output: ‘y’
+function firstRepeatingCharacter(s) {
+  // Create a Map to store characters we've seen and their indices
+  const seen = new Map();
 
-function repeating(char) {
-  let newChar = char.split("");
-  newChar.sort();
-  console.log(newChar, "check");
-  let hash = new Map();
-  for (let i = 0; i < newChar.length; i++) {
-    console.log(newChar[i]);
+  // Variable to keep track of the earliest repeat
+  let earliestRepeatIndex = Infinity;
+  let firstRepeat = -1;
 
-    if (hash.has(newChar[i])) {
-      //   console.log(hash.get(newChar[i]), "here");
-      return newChar[hash.get(newChar[i])];
+  // Iterate through the string
+  for (let i = 0; i < s.length; i++) {
+    const char = s[i];
+    if (seen.has(char)) {
+      // If we've seen this character before and it's earlier than our current earliest
+      if (seen.get(char) < earliestRepeatIndex) {
+        earliestRepeatIndex = seen.get(char);
+        firstRepeat = char;
+      }
+    } else {
+      // If we haven't seen it, add it to the map with its index
+      seen.set(char, i);
     }
-    hash.set(newChar[i], i);
   }
+
+  // Return the first repeating character or -1 if none found
+  return firstRepeat;
 }
 
-console.log(repeating("xyzzoy"));
+// Test cases
+console.log(firstRepeatingCharacter("abbacddac")); // Should output 'a'
+console.log(firstRepeatingCharacter("xyzzoy")); // Should output 'y'
+console.log(firstRepeatingCharacter("abcdef")); // Should output -1
