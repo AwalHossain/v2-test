@@ -69,7 +69,11 @@
 -- 3. Share the repository link with the examiner immediately after
 -- the test.
 
-
-select distinct(nums) as identifier, 
-       (select max(survey_id) from survey) as "current" 
-  from survey_main;
+-- Query to find the largest single number or return null if none exist
+SELECT MAX(num) AS num
+FROM (
+    SELECT num
+    FROM MyNumbers
+    GROUP BY num
+    HAVING COUNT(num) = 1
+) AS SingleNumbers;
